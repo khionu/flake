@@ -1,5 +1,4 @@
-{ cfg, ... }: {
-  cfg.services.printing.enable = true;
-
-  cfg.hardware.enableAllFirmware = true;
+{ ... }: {
+  services.printing.enable = true;
+  hardware.enableAllFirmware = true;
 }

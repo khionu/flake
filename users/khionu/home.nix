@@ -1,14 +1,21 @@
-{ pkgs, lib, ... }: {
-  home.file.".git_allowed_signers".text
-    = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICB2o2d+XdoTIeUP115mn87lYWlOy+DEOSLqN0ET7AW3 khionu";
-  home.shellAliases = {    
+systemConfig:
+{ pkgs, lib, ... }: let
+  shellAliases = { 
     vim = "nvim";
-    nos = "sudo -E nvim /etc/nixos/configuration.nix";
+    # nos = "sudo -E nvim /etc/nixos/configuration.nix"; # TODO: Replace with flake-oriented commands
     ls = "eza";
-    yolo = "sudo nixos-rebuild switch";
+    yolo = "sudo nixos-rebuild switch --flake ~/repos/flake#${systemConfig.networking.hostName}";
     toclip = "xclip -selection \"clipboard\"";
   };
-  programs.nushell.shellAliases = home.shellAliases
+  pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICB2o2d+XdoTIeUP115mn87lYWlOy+DEOSLqN0ET7AW3 khionu";
+in {
+  home.file.".git_allowed_signers".text = pubkey;
+  home.shellAliases = shellAliases;
+  programs.nushell.enable = true;
+  programs.nushell.shellAliases = shellAliases;
+  programs.nushell.environmentVariables = {
+    SSH_AUTH_SOCK = "/home/khionu/.1password/agent.sock";
+  };
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
   programs.carapace.enable = true;
@@ -28,11 +35,11 @@
     extraConfig = {
       init = { defaultBranch = "main"; };
       push = { autoSetupRemote = true; };
-      user.signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICB2o2d+XdoTIeUP115mn87lYWlOy+DEOSLqN0ET7AW3 khionu";
+      user.signingkey = pubkey;
       commit.gpgsign = true;
       gpg.format = "ssh";
       gpg.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-      gig.ssh.allowedSignersFile = home.files.".git_allowed_signers".target;
+      gpg.ssh.allowedSignersFile = "~/.git_allowed_signers";
       safe.directory = "/etc/nixos";
     };
     delta.enable = true;
@@ -42,41 +49,38 @@
     user.name = "Khionu Sybiern";
     user.email = "dev@khionu.net";
     ui.editor = "nvim";
+    ui.default-command = "log";
+    ui.pager = "less -FRX";
+    # signing.sign-all = "true";
+    # signing.backend = "ssh";
+    # signing.key = pubkey;
+    # signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
   };
   programs.ssh.extraConfig = ''
   Host *
     IdentityAgent ~/.1password/agent.sock
   '';
   home.packages = with pkgs; [
-    agenix.packages.x86_64-linux.agenix
+    # Need to pass agenix through home-manager's extraSpecialArgs
+    # agenix.packages.x86_64-linux.agenix
+    rage
     atool
     firefox
-    rustup
-    openfpgaloader
-    tdesktop  
-    spotify
     vivaldi
-    heroic
-    yubioath-flutter
+    tdesktop
+    spotify
     yubikey-personalization
     yubikey-manager-qt
     yubikey-touch-detector
     lazygit
-    wireshark
     du-dust
     neofetch
-    psmisc
     bat
     ripgrep
     eza
-    xplr
-    zq
-    jq
-    gcc
     curl
     wget
     zellij
-    kitty
     discord-canary
     _1password
     zoom-us
@@ -84,9 +88,10 @@
     zip
     htop
     xclip
-    tailscale
     whois
+    ventoy-full
   ];
 
   home.stateVersion = "23.11";
-};
+}
+

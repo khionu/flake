@@ -1,0 +1,10 @@
+/target
+**/*.rs.bk
+.idea/
+*.iml
+fido2luks.bash
+fido2luks.elv
+fido2luks.fish
+fido2luks.zsh
+result
+result-*

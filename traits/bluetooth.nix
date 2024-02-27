@@ -1,4 +1,4 @@
-{ ... }: { config = {
+{ ... }: {
   hardware.bluetooth.enable = true;
   hardware.bluetooth.settings = {
     General = {
@@ -7,4 +7,4 @@
   };
 
   services.blueman.enable = true;
-};}
+}

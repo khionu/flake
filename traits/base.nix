@@ -1,13 +1,8 @@
-{ ... }: { config = {
+{ pkgs, ... }: { config = {
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 25;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-
-  swapDevices = [ {
-    device = "/swap";
-    size = 16384;
-  } ];
+  boot.loader.efi.efiSysMountPoint = "/boot";
 
   security.rtkit.enable = true;
   security.polkit.enable = true;
@@ -16,6 +11,8 @@
   i18n.defaultLocale = "en_US.utf8";
 
   programs.mtr.enable = true;
+
+  programs.noisetorch.enable = true;
   
   nixpkgs.config.allowUnfree = true;
 
@@ -33,6 +30,5 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
-
   system.stateVersion = "23.11";
 };}

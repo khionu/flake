@@ -5,6 +5,10 @@
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nuenv = {
+      url = github:DeterminateSystems/nuenv;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agenix = {
       url = github:ryantm/agenix;
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,34 +17,34 @@
       url = github:nix-community/neovim-nightly-overlay;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    disko = {
-      url = github:khionu/disko;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nuenv, agenix, neovim-nightly, ... }@inputs:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = func: nixpkgs.lib.genAttrs supportedSystems (system: func system);
-      forTheseUsers = func: users: (nixpkgs.lib.genAttrs (u: func u) users);
-      utils = ./utils.nix;
-      globals = rec {
-        stateVersion = "23.01";
+      overlays = [
+        nuenv.overlays.default
+        neovim-nightly.overlay
+        (final: prev: { fido2luks = prev.callPackage ./overlays/fido2luks { }; })
+      ];
+      globals = {
+        system.stateVersion = "23.11";
       };
+      lib = nixpkgs.lib;
     in {
-      packages = forAllSystems (system: 
+      packages = forAllSystems (system:
         let
-          pkgs = import nixpkgs { 
-            inherit system; 
+          pkgs = import nixpkgs {
+            inherit system overlays;
             config.allowUnfree = true;
-          };  
+          };
         in {
           inherit (pkgs);
         });
       devShells = forAllSystems (system:
         let
-          pkgs = import nixpkgs { 
-            inherit system;
+          pkgs = import nixpkgs {
+            inherit system overlays;
             config.allowUnfree = true;
           };
         in {
@@ -56,97 +60,90 @@
             system = "aarch64-linux";
             modules = with self.nixosModules; [
               ({ config = { nix.registry.nixpkgs.flake = nixpkgs; }; })
+              ({ nixpkgs.overlays = overlays; })
               home-manager.nixosModules.home-manager
-              traits.overlay
               traits.base
-              services.openssh
             ];
+        specialArgs = inputs;
           };
           x86_64Base = {
             system = "x86_64-linux";
             modules = with self.nixosModules; [
               ({ config = { nix.registry.nixpkgs.flake = nixpkgs; }; })
+              ({ nixpkgs.overlays = overlays; })
               home-manager.nixosModules.home-manager
-              traits.overlay
               traits.base
-              services.openssh
             ];
+            specialArgs = inputs;
           };
         in
           with self.nixosModules; {
-            x86_64IsoImage = nixpkgs.lib.nixosSystem {
-              inherit (x86_64Base) system;
+            "iso-x86_64" = nixpkgs.lib.nixosSystem {
+              inherit (x86_64Base) system specialArgs overlays;
               modules = x86_64Base.modules ++ [
                 platforms.iso
               ];
             };
-            aarch64IsoImage = nixpkgs.lib.nixosSystem {
-              inherit (aarch64Base) system;
+            "iso-aarch64" = nixpkgs.lib.nixosSystem {
+              inherit (aarch64Base) system specialArgs overlays;
               modules = aarch64Base.modules ++ [
                 platforms.iso
-                { config = {
+                {
                   virtualisation.vmware.guest.enable = nixpkgs.lib.mkForce false;
                   services.xe-guest-utilities.enable = nixpkgs.lib.mkForce false;
-                };}
+                }
               ];
             };
-            khionu_dragonfly = nixpkgs.lib.nixosSystem {
-              inherit (x86_64Base) system;
+            "khionu-dragonfly" = nixpkgs.lib.nixosSystem {
+              inherit (x86_64Base) system specialArgs;
               modules = x86_64Base.modules ++ [
-                ./devices/khionu/dragonfly/main.nix
+                ./devices/khionu/dragonfly
                 platforms.laptop
-                traits.base
                 traits.networking
                 traits.bluetooth
                 traits.plasma
-                traits.generalDev
                 traits.tz_us_pacific
               ];
             };
-            household_benchtop = nixpkgs.lib.nixosSystem {
-              inherit (x86_64Base) system;
+            "khionu-tower" = nixpkgs.lib.nixosSystem {
+              inherit (x86_64Base) system specialArgs;
               modules = x86_64Base.modules ++ [
-                ./devices/household/benchtop/main.nix
+                ./devices/khionu/tower
                 platforms.desktop
-                traits.base
+                traits.networking
+                traits.tailscale
+                traits.bluetooth
+                traits.plasma
+                traits.tz_us_pacific
+              ];
+            };
+            "household-benchtop" = nixpkgs.lib.nixosSystem {
+              inherit (x86_64Base) system specialArgs;
+              modules = x86_64Base.modules ++ [
+                ./devices/household/benchtop
+                platforms.desktop
                 traits.networking
                 traits.plasma
-                traits.generalDev
                 traits.tz_us_pacific
               ];
             };
           };
       nixosModules.traits = {
-        overlay = {
-          nixpkgs.overlays = [ self.overlays.default ];
-        };
         base = ./traits/base.nix;
         networking = ./traits/networking.nix;
         tailscale = ./traits/tailscale.nix;
         bluetooth = ./traits/bluetooth.nix;
         plasma = ./traits/plasma.nix;
-        generalDev = ./traits/dev.nix;
-        # gameDev = ./traits/game_dev.nix;
         gaming = ./traits/gaming.nix;
-        # nas = ./traits/nas.nix;
-        # nomadClient = ./traits/nomad/client.nix;
-        # nomadServer = ./traits/nomad/server.nix;
-        # consulClient = ./traits/consul/client.nix;
-        # consulServer = ./traits/consul/server.nix;
-        # vaultAgent = ./traits/vault/agent.nix;
-        # vaultProxy = ./traits/vault/proxy.nix;
-        # vaultServer = ./traits/vault/server.nix;
-        tz_us_pacific = { config, ... }: { config.time.timeZone = "US/Pacific"; };
-        tz_utc = { config, ... }: { config.time.timeZone = "UTC"; };
+        tz_us_pacific = { time.timeZone = "US/Pacific"; };
+        tz_utc = { time.timeZone = "UTC"; };
       };
       nixosModules.platforms = {
         iso = ./platforms/iso.nix;
         isoMinimal = ./platforms/iso_min.nix;
         laptop = ./platforms/laptop.nix;
         desktop = ./platforms/desktop.nix;
-        # server = ./platforms/server.nix;
-        # container = ./platforms/container.nix;
       };
   };
-} 
+}
 

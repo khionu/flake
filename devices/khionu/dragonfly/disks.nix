@@ -3,7 +3,7 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-uuid/13058418873051565413";
         content = {
           type = "gpt";
           partitions = {
@@ -15,6 +15,7 @@
                 format = "vfat";
                 mountpoint = "/boot";
               };
+	      bootable = true;
             };
             LUKS = {
               size = "100%";
@@ -27,7 +28,8 @@
                 };
                 settings = {
                   fido2.credentials = [
-
+		    readFile ../../../users/khionu/sec/fde_luks_fido2_primary
+		    readFile ../../../users/khionu/sec/fde_luks_fido2_secondary
                   ];
                 };
               };
@@ -44,6 +46,21 @@
           "com.sun:auto-snapshot" = "false";
         };
         datasets = {
+	  swap = {
+	    type = "zfs_volume";
+	    size = "16G";
+	    end = "100%";
+	    options = {
+	      compression = "zle";
+	      sync = "always";
+	      primarycache = "metadata";
+	      secondarycache = "none";
+	      "com.sun:auto-snapshot" = false;
+	    };
+	    content = {
+	      type = "swap";
+	    };
+	  };
           ephem = {
             type = "zfs_fs";
             options.mountpoint = "none";
