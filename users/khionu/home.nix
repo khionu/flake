@@ -51,6 +51,7 @@ in {
     ui.editor = "nvim";
     ui.default-command = "log";
     ui.pager = "less -FRX";
+    snapshot.max-new-file-size = "5MiB";
     # signing.sign-all = "true";
     # signing.backend = "ssh";
     # signing.key = pubkey;
@@ -60,36 +61,66 @@ in {
   Host *
     IdentityAgent ~/.1password/agent.sock
   '';
+  programs.firefox.enable = true;
+  programs.firefox.policies = {
+    BlockAboutConfig = true;
+    DisablePocket = true;
+    EnableTrackingProtection = {
+      Value = true;
+      Cryptomining = true;
+      Fingerprinting = true;
+      EmailTracking = true;
+      OverToSaveLogins = false;
+      PasswordManagerEnabled = false;
+      PromptForDownloadLocation = true;
+    };
+  };
+  programs.bat.enable = true;
+  programs.ripgrep.enable = true;
+  programs.eza.enable = true;
+  programs.eza.enableAliases = true;
+  programs.eza.git = true;
+  programs.eza.icons = true;
+  programs.eza.extraOptions = [ "--header" "--group-directories-first" ];
+  programs.zellij.enable = true;
+  programs.zellij.settings = {
+    mirror_session = true;
+  };
+  programs.bottom.enable = true;
+  programs.bottom.settings = {
+    flags = {
+      regex = true;
+      # battery = false; TODO: make this infer from whether we're on a laptop or not
+      mem_as_value = true;
+      tree = true;
+      show_table_scroll_position = true;
+      enable_gpu = true;
+      enable_cache_memory = true;
+    };
+  };
   home.packages = with pkgs; [
     # Need to pass agenix through home-manager's extraSpecialArgs
     # agenix.packages.x86_64-linux.agenix
     rage
     atool
-    firefox
     vivaldi
     tdesktop
     spotify
     yubikey-personalization
     yubikey-manager-qt
     yubikey-touch-detector
-    lazygit
     du-dust
     neofetch
-    bat
-    ripgrep
-    eza
-    curl
-    wget
-    zellij
     discord-canary
     _1password
     zoom-us
     unzip
     zip
-    htop
     xclip
     whois
     ventoy-full
+    glow
+    httpie
   ];
 
   home.stateVersion = "23.11";
