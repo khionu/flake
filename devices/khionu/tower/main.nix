@@ -30,12 +30,9 @@
 
   boot.kernelModules = [ "kvm-amd" ];
   boot.initrd.availableKernelModules = [ "thunderbolt" "xhci_pci" "nvme" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.luks.fido2Support = true;
-  boot.initrd.luks.devices = {
-    nixos = {
-      fido2.passwordLess = true;
-      device = "/dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2";
-    };
+  boot.initrd.systemd.enable = true;
+  boot.initrd.luks.devices.nixos = {
+    device = "/dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2";
   };
   # boot.initrd.systemd.services.unlock = {
   #   wantedBy = [ "initrd.target" ];
