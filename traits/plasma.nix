@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   xdg.mime.enable = true;
   xdg.portal.enable = true;
 
@@ -25,5 +25,8 @@
   fonts = {
     fontDir.enable = true;
     enableDefaultPackages = true;
+    packages = with pkgs; [ (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; }) ];
+    fontconfig.defaultFonts.monospace = [ "Berkeley Mono Variable" ];
+    fontconfig.defaultFonts.emoji = [ "NerdFontsSymbolsOnly" ];
   };
 }
