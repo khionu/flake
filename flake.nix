@@ -17,14 +17,20 @@
       url = github:nix-community/neovim-nightly-overlay;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jj = {
+      url = github:martinvonz/jj/v0.15.0;
+      # ref = "refs/tags/v0.15.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, nixpkgs, home-manager, nuenv, agenix, neovim-nightly, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nuenv, agenix, neovim-nightly, jj, ... }@inputs:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = func: nixpkgs.lib.genAttrs supportedSystems (system: func system);
       overlays = [
         nuenv.overlays.default
         neovim-nightly.overlay
+        jj.overlays.default
         (final: prev: { fido2luks = prev.callPackage ./overlays/fido2luks { }; })
       ];
       globals = {

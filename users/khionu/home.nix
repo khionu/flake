@@ -52,10 +52,10 @@ in {
     ui.default-command = "log";
     ui.pager = "less -FRX";
     snapshot.max-new-file-size = "5MiB";
-    # signing.sign-all = "true";
-    # signing.backend = "ssh";
-    # signing.key = pubkey;
-    # signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+    signing.sign-all = "true";
+    signing.backend = "ssh";
+    signing.key = pubkey;
+    signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
   };
   programs.ssh.extraConfig = ''
   Host *
