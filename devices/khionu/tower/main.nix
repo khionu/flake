@@ -21,27 +21,12 @@
   # Hardware related
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # boot.loader.systemd-boot.extraEntries = {
-  #   "Windows 11" = ''
-  #     title	Windows 11
-
-  #   '';
-  # };
-
   boot.kernelModules = [ "kvm-amd" ];
   boot.initrd.availableKernelModules = [ "thunderbolt" "xhci_pci" "nvme" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.systemd.enable = true;
   boot.initrd.luks.devices.nixos = {
     device = "/dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2";
   };
-  # boot.initrd.systemd.services.unlock = {
-  #   wantedBy = [ "initrd.target" ];
-  #   before = [ "sysroot.mount" ];
-  #   serviceConfig.Type = "oneshot";
-  #   script = ''
-  #   ${config.boot.initrd.systemd.package}/bin/systemd-cryptsetup attach nixos /dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2 fido2-device=auto
-  #   '';
-  # };
 
   hardware.cpu.amd.updateMicrocode = true;
 
