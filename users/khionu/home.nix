@@ -9,7 +9,7 @@ systemConfig:
   };
   pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICB2o2d+XdoTIeUP115mn87lYWlOy+DEOSLqN0ET7AW3 khionu";
 in {
-  home.file.".git_allowed_signers".text = pubkey;
+  home.file.".allowed_signers".text = pubkey;
   home.shellAliases = shellAliases;
   programs.nushell.enable = true;
   programs.nushell.shellAliases = shellAliases;
@@ -42,7 +42,7 @@ in {
       commit.gpgsign = true;
       gpg.format = "ssh";
       gpg.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-      gpg.ssh.allowedSignersFile = "~/.git_allowed_signers";
+      gpg.ssh.allowedSignersFile = "/home/khionu/.allowed_signers";
       safe.directory = "/etc/nixos";
     };
     delta.enable = true;
@@ -53,12 +53,14 @@ in {
     user.email = "dev@khionu.net";
     ui.editor = "nvim";
     ui.default-command = "log";
-    ui.pager = "less -FRX";
+    ui.pager = "less -FR";
+    git.push-branch-prefix = "push/khionu/";
     snapshot.max-new-file-size = "5MiB";
     signing.sign-all = "true";
     signing.backend = "ssh";
     signing.key = pubkey;
     signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+    signing.backends.ssh.allowed-signers = "/home/khionu/.allowed_signers";
   };
   programs.ssh.extraConfig = ''
   Host *
