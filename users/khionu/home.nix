@@ -16,6 +16,9 @@ in {
   programs.nushell.environmentVariables = {
     SSH_AUTH_SOCK = "/home/khionu/.1password/agent.sock";
   };
+  programs.nushell.extraConfig = ''
+  $env.config.show_banner = false
+  '';
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
   programs.carapace.enable = true;
@@ -121,6 +124,7 @@ in {
     ventoy-full
     glow
     httpie
+    vhs
   ];
 
   home.stateVersion = "23.11";
