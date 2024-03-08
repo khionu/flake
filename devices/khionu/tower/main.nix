@@ -22,10 +22,20 @@
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelParams = [
+    "video=DP-2:5120x1440@240"
+  ];
   boot.initrd.availableKernelModules = [ "thunderbolt" "xhci_pci" "nvme" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.systemd.enable = true;
   boot.initrd.luks.devices.nixos = {
     device = "/dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2";
+  };
+
+  hardware.opengl = {
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = [ pkgs.amdvlk ];
+    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
 
   hardware.cpu.amd.updateMicrocode = true;

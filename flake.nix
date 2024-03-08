@@ -120,6 +120,7 @@
                 traits.tailscale
                 traits.bluetooth
                 traits.plasma
+                traits.gaming
                 traits.tz_us_pacific
               ];
             };
