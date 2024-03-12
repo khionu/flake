@@ -11,10 +11,14 @@ systemConfig:
 in {
   home.file.".allowed_signers".text = pubkey;
   home.shellAliases = shellAliases;
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
   programs.nushell.enable = true;
   programs.nushell.shellAliases = shellAliases;
   programs.nushell.environmentVariables = {
     SSH_AUTH_SOCK = "/home/khionu/.1password/agent.sock";
+    EDITOR = "nvim";
   };
   programs.nushell.extraConfig = ''
   $env.config.show_banner = false
@@ -51,7 +55,6 @@ in {
   programs.jujutsu.settings = {
     user.name = "Khionu Sybiern";
     user.email = "dev@khionu.net";
-    ui.editor = "nvim";
     ui.default-command = "log";
     ui.pager = "less -FR";
     git.push-branch-prefix = "push/khionu/";
@@ -61,6 +64,7 @@ in {
     signing.key = pubkey;
     signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
     signing.backends.ssh.allowed-signers = "/home/khionu/.allowed_signers";
+    core.fsmonitor = "watchman";
   };
   programs.ssh.extraConfig = ''
   Host *
@@ -127,6 +131,8 @@ in {
     glow
     httpie
     vhs
+    watchman
+    imagemagick
   ];
 
   home.stateVersion = "23.11";
