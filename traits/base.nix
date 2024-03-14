@@ -12,7 +12,6 @@
 
   programs.mtr.enable = true;
 
-  programs.noisetorch.enable = true;
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
