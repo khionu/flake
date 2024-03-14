@@ -1,9 +1,6 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, users, ... }: {
   networking.hostName = "khionu-tower";
   networking.hostId = "156c6434";
-
-  home-manager.useUserPackages = true;
-  home-manager.useGlobalPkgs = true;
 
   users.users.khionu = {
     isNormalUser = true;
@@ -12,7 +9,7 @@
     shell = pkgs.nushell;
   };
 
-  home-manager.users.khionu = import (../../../users/khionu/home.nix) config;
+  home-manager.users.khionu = import ../../../users/khionu/home.nix;
 
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
@@ -76,6 +73,11 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/8906-B8A0";
       fsType = "vfat";
+    };
+
+  fileSystems."/gaming" =
+    { device = "/dev/disk/by-path/pci-0000:58:00.0-nvme-1-part2";
+      fsType = "ntfs3";
     };
 
   swapDevices =

@@ -1,9 +1,4 @@
 { ... }: { config = {
-  home-manager.useUserPackages = true;
-  home-manager.useGlobalPkgs = true;
-
-  import ../../users/khionu/home.nix;
-
   users.users.khionu = {
     isNormalUser = true;
     password = "changeme1234";
