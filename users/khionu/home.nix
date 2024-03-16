@@ -19,6 +19,13 @@ in {
   # -- partially to get you to check out the config options, which are numerous
   programs.nushell.extraConfig = ''
     $env.config.show_banner = false
+
+    def flakepull [] {
+      cd /etc/nixos
+      sudo -E jj git fetch
+      sudo -E jj new main;
+      cd -
+    }
   '';
   # -- Automatically load my devShells on directory change
   programs.direnv.enable = true;
