@@ -11,7 +11,6 @@ in {
   programs.nushell.shellAliases = { 
     toclip = "xclip -selection \"clipboard\"";
     yolo = "sudo -E nixos-rebuild switch";
-    flakepull = "(cd /etc/nixos/; sudo -E jj git fetch; sudo -E jj new main; cd -)";
     # nos = "sudo -E nvim /etc/nixos/flake.nix";
   };# -- TODO: `nos` should be more than "edit 1 file"
   programs.nushell.environmentVariables = global_envvars;
@@ -23,7 +22,7 @@ in {
     def flakepull [] {
       cd /etc/nixos
       sudo -E jj git fetch
-      sudo -E jj new main;
+      sudo -E jj new main
       cd -
     }
   '';
