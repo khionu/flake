@@ -79,6 +79,10 @@
   fileSystems."/gaming" =
     { device = "/dev/disk/by-path/pci-0000:58:00.0-nvme-1-part2";
       fsType = "ntfs3";
+      options = [
+        "users"
+        "nofail"
+      ];
     };
 
   swapDevices =
