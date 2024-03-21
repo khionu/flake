@@ -10,7 +10,7 @@ in {
   programs.nushell.enable = true;
   programs.nushell.shellAliases = { 
     toclip = "xclip -selection \"clipboard\"";
-    yolo = "sudo -E nixos-rebuild switch";
+    yolo = "sudo nixos-rebuild switch";
     # nos = "sudo -E nvim /etc/nixos/flake.nix";
   };# -- TODO: `nos` should be more than "edit 1 file"
   programs.nushell.environmentVariables = global_envvars;
