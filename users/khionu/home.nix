@@ -69,6 +69,8 @@ in {
     user.email = "dev@khionu.net";
     ui.default-command = "log"; # normal default, to silence the tip
     ui.pager = "less -FR"; # default includes -X, which prevents cleanup
+    ui.log-synthetic-elided-nodes = true;
+    ui.graph.style = "square";
     git.push-branch-prefix = "push/khionu/";
     snapshot.max-new-file-size = "5MiB"; # PDFs
     signing.sign-all = "true";
@@ -80,6 +82,27 @@ in {
     signing.backends.ssh.allowed-signers = "/home/khionu/.allowed_signers";
     # -- Slightly better snapshot times in general, much better for larger repos
     core.fsmonitor = "watchman";
+    templates = {
+       log_node = ''
+         if(current_working_copy, label("wcc node", "⚒"),
+           if(root, "┴",
+             if(immutable, label("immutable node", "◆"),
+               if(description.starts_with("wip: "), label("wip node", "!"),
+                 "○"
+               )
+             )
+           )
+         )
+       '';
+       op_log_node = "if(current_operation, "@", "◉")";
+       log_node_elided = "label("elided node", "⇋")";
+    };
+    colors = {
+      "immutable node" = { fg = "bright cyan"; };
+      "elided node" = { fg = "bright black"; };
+      "wip node" = { fg = "yellow"; bold = true; };
+      "wcc node" = { fg = "green"; bold = true; };
+    };
   };
   # -- Can be redundant
   programs.ssh.extraConfig = ''
