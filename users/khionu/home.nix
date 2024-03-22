@@ -94,8 +94,8 @@ in {
            )
          )
        '';
-       op_log_node = "if(current_operation, "@", "◉")";
-       log_node_elided = "label("elided node", "⇋")";
+       op_log_node = "if(current_operation, \"@\", \"◉\")";
+       log_node_elided = "label(\"elided node\", \"⇋\")";
     };
     colors = {
       "immutable node" = { fg = "bright cyan"; };
