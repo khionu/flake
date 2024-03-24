@@ -171,6 +171,7 @@ in {
     watchman
     imagemagick
     clang
+    jetbrains-toolbox
   ];
 
   home.stateVersion = "23.11";
