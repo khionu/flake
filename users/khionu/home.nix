@@ -173,6 +173,7 @@ in {
     clang
     jetbrains-toolbox
     docker
+    lunarvim
   ];
 
   home.stateVersion = "23.11";
