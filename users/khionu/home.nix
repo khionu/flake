@@ -172,6 +172,7 @@ in {
     imagemagick
     clang
     jetbrains-toolbox
+    docker
   ];
 
   home.stateVersion = "23.11";
