@@ -171,10 +171,8 @@ in {
     watchman
     imagemagick
     clang
-    jetbrains-toolbox
+    jetbrains.rust-rover
     docker
-    lunarvim
-    gcc
   ];
 
   home.stateVersion = "23.11";
