@@ -174,6 +174,7 @@ in {
     jetbrains-toolbox
     docker
     lunarvim
+    gcc
   ];
 
   home.stateVersion = "23.11";
