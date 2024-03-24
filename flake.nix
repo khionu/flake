@@ -3,6 +3,16 @@
     # Stable moves a little too slow for me. Would be nice
     # if it were easier to test...
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    # TODO: Document
+    lix = {
+      url = "git+ssh://git@git.lix.systems/lix-project/lix";
+      flake = false;
+    };
+    lix-module = {
+      url = "git+ssh://git@git.lix.systems/lix-project/nixos-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.lix.follows = "lix";
+    };
     # All user configurations are home-manager modules, which
     # have the advantage of many modules that each user can
     # tweak to their own preferences
