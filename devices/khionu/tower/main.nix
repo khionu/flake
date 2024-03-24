@@ -5,7 +5,7 @@
   users.users.khionu = {
     isNormalUser = true;
     password = "changeme1234";
-    extraGroups = [ "wheel" "audio" "networkmanager" ];
+    extraGroups = [ "wheel" "audio" "networkmanager" "docker" ];
     shell = pkgs.nushell;
   };
 
@@ -14,6 +14,12 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [ "khionu" ];
+
+  virtualisation.docker = {
+    enable = true;
+    # TODO: make it so
+    # storageDriver = "zfs";
+  };
 
   # Hardware related
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
