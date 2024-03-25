@@ -10,7 +10,9 @@ in {
   programs.nushell.enable = true;
   programs.nushell.shellAliases = { 
     toclip = "xclip -selection \"clipboard\"";
-    yolo = "sudo nixos-rebuild switch";
+    # -- `sudo -E` is required for pulling from authenticated repositories, for now
+    # -- TODO: make another key for root to use for git-only purposes
+    yolo = "sudo -E nixos-rebuild switch";
     # nos = "sudo -E nvim /etc/nixos/flake.nix";
   };# -- TODO: `nos` should be more than "edit 1 file"
   programs.nushell.environmentVariables = global_envvars;
