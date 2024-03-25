@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lix-module, ... }: {
   imports = [
     lix-module.nixosModules.default
   ];
