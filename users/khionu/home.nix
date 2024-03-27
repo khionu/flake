@@ -38,6 +38,8 @@ in {
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-nightly;
+    withNodeJs = true;
+    withPython3 = true;
   };
   # -- Keeping git around for some tools that expect it
   programs.git = {
