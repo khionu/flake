@@ -86,11 +86,11 @@ in {
     core.fsmonitor = "watchman";
     templates = {
        log_node = ''
-         if(current_working_copy, label("wcc node", "⚒"),
-           if(root, "┴",
-             if(immutable, label("immutable node", "◆"),
-               if(description.starts_with("wip: "), label("wip node", "!"),
-                 if(!self, label("elided node", "⇋"),
+         if(!self, label("elided node", "⇋"),
+           if(current_working_copy, label("wcc node", "⚒"),
+             if(root, "┴",
+               if(immutable, label("immutable node", "◆"),
+                 if(description.starts_with("wip: "), label("wip node", "!"),
                    "○"
                  )
                )
