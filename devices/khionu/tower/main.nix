@@ -2,6 +2,8 @@
   networking.hostName = "khionu-tower";
   networking.hostId = "156c6434";
 
+  security.sudo.wheelNeedsPassword = false;
+
   users.users.khionu = {
     isNormalUser = true;
     password = "changeme1234";
