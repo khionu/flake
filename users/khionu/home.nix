@@ -40,6 +40,7 @@ in {
     package = pkgs.neovim-nightly;
     withNodeJs = true;
     withPython3 = true;
+    extraPackages = with pkgs; [ rust-analyzer ];
   };
   # -- Keeping git around for some tools that expect it
   programs.git = {
