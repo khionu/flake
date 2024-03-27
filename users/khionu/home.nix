@@ -90,14 +90,16 @@ in {
            if(root, "┴",
              if(immutable, label("immutable node", "◆"),
                if(description.starts_with("wip: "), label("wip node", "!"),
-                 "○"
+                 if(!self, label("elided node", "⇋"),
+                   "○"
+                 )
                )
              )
            )
          )
        '';
        op_log_node = "if(current_operation, \"@\", \"◉\")";
-       log_node_elided = "label(\"elided node\", \"⇋\")";
+       # log_node_elided = "label(\"elided node\", \"⇋\")";
     };
     colors = {
       "immutable node" = { fg = "bright cyan"; };
