@@ -22,9 +22,10 @@ in {
     $env.config.show_banner = false
 
     def flakepull [branch: string = "main"] {
+      let br = $"($branch)@origin"
       cd /etc/nixos
       sudo -E jj git fetch
-      sudo -E jj new $branch
+      sudo -E jj new $br
       cd -
     }
   '';
