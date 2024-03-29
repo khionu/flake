@@ -18,6 +18,8 @@ in {
     # -- TODO: make another key for root to use for git-only purposes
     yolo = "sudo -E nixos-rebuild switch";
     # nos = "sudo -E nvim /etc/nixos/flake.nix";
+    reboot-win = "systemctl reboot --boot-loader-entry=auto-windows";
+    reboot-fm = "systemctl reboot --boot-loader-entry=auto-reboot-to-firmware-setup";
   };# -- TODO: `nos` should be more than "edit 1 file"
   programs.nushell.environmentVariables = global_envvars;
   # -- Nushell has a neat little banner by default, partially to talk about itself and
