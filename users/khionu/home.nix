@@ -42,13 +42,6 @@ in {
   programs.carapace.enable = true;
   # -- We'll try disabling, see if this breaks anything
   # programs.bash.enable = true;
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-nightly;
-    withNodeJs = true;
-    withPython3 = true;
-    extraPackages = with pkgs; [ rust-analyzer ];
-  };
   # -- Keeping git around for some tools that expect it
   programs.git = {
     enable = true;
@@ -174,6 +167,7 @@ in {
     imagemagick
     clang
     docker
+    khionu.neovim
   ];
 
   home.stateVersion = "23.11";
