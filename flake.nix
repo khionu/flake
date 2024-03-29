@@ -3,6 +3,9 @@
     # Stable moves a little too slow for me. Would be nice
     # if it were easier to test...
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    # I don't use this, but the other ones do, and this will
+    # reduce redundancy through following
+    flake-utils.url = "github:numtide/flake-utils";
     # TODO: Document
     lix = {
       url = "git+ssh://git@git.lix.systems/lix-project/lix";
@@ -12,6 +15,7 @@
       url = "git+ssh://git@git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
+      inputs.flake-utils.follows = "flake-utils";
     };
     # All user configurations are home-manager modules, which
     # have the advantage of many modules that each user can
@@ -38,6 +42,7 @@
     neovim-nightly = {
       url = github:nix-community/neovim-nightly-overlay;
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
     # Gonna be changing this version basically as soon as
     # the releases happen.
@@ -46,12 +51,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = {
     self, nixpkgs, home-manager, nuenv, agenix, neovim-nightly, jj, ...
-  } @ inputs:
+  outputs = inputs @ {
+  }:
     let
       # These are all the architectures this flake builds for
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      lib = nixpkgs.lib;
+      # TODO: fancy stuff in Hazel's lib
+      # lib = import ./lib.nix { inherit inputs; };
+      specialArgs = inputs // { globals = globals; };
       overlays = [
         nuenv.overlays.default
         neovim-nightly.overlay
@@ -61,11 +70,10 @@
         nixpkgs.overlays = overlays;
         system.stateVersion = "23.11";
       };
-      lib = nixpkgs.lib;
-      specialArgs = inputs // { overlays = overlays; globals = globals; lib = lib; };
       # This is a wrapper function so we can make sure each architecture is treated the same
       eachSystem = f: lib.genAttrs supportedSystems (system: f {
         inherit system;
+        # A special point that imports the overlays and packages defined in this flake
         pkgs = import nixpkgs { inherit overlays system; };
       });
     in {

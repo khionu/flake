@@ -7,6 +7,10 @@
   };
 in {
   home.sessionVariables = global_envvars;
+  # home.activation.getDotfiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  #   run git clone $VERBOSE_ARG \
+  #       https://github.com/khionu/dotfiles $HOME/.local/dotrepo
+  # '';
   programs.nushell.enable = true;
   programs.nushell.shellAliases = { 
     toclip = "xclip -selection \"clipboard\"";
@@ -56,17 +60,6 @@ in {
       "target/release"
       "target/docs"
     ];
-  #   extraConfig = {
-  #     init = { defaultBranch = "main"; };
-  #     push = { autoSetupRemote = true; };
-  #     user.signingkey = pubkey;
-  #     commit.gpgsign = true;
-  #     gpg.format = "ssh";
-  #     gpg.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-  #     gpg.ssh.allowedSignersFile = "/home/khionu/.allowed_signers";
-  #     safe.directory = "/etc/nixos";
-  #   };
-    delta.enable = true;
   };
   home.file.".allowed_signers".text = pubkey;
   programs.jujutsu.enable = true;
@@ -103,7 +96,6 @@ in {
          )
        '';
        op_log_node = "if(current_operation, \"@\", \"◉\")";
-       # log_node_elided = "label(\"elided node\", \"⇋\")";
     };
     colors = {
       "immutable node" = { fg = "bright cyan"; };
@@ -119,15 +111,15 @@ in {
   '';
   programs.firefox.enable = true;
   programs.firefox.policies = {
-    BlockAboutConfig = true; # -- We're only managing that here
-    DisablePocket = true; # -- I don't want to use this ever
+    BlockAboutConfig = true;     # -- We're only managing that here
+    DisablePocket = true;        # -- I don't want to use this ever
     EnableTrackingProtection = { # -- YASSSSSSSS
       Value = true;
       Cryptomining = true;
       Fingerprinting = true;
       EmailTracking = true;
     };
-    OfferToSaveLogins = false; # -- I use 1P
+    OfferToSaveLogins = false;      # -- I use 1P
     PasswordManagerEnabled = false; # -- ^
     PromptForDownloadLocation = true;
   };
@@ -179,7 +171,6 @@ in {
     watchman
     imagemagick
     clang
-    jetbrains.rust-rover
     docker
   ];
 
