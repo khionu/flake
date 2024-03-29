@@ -36,10 +36,11 @@
       url = github:ryantm/agenix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Again with the slow moving versions :/ Need this for
-    # a few plugins that require a version newer than what
-    # nixpkgs has
-    neovim-nightly = {
+    # We should be able to build nightly without the 
+    # neovim-nightly flake, but for some reason it just
+    # doesn't work right now. TODO
+    neovim = {
+    # url = "github:neovim/neovim?dir=contrib";
       url = github:nix-community/neovim-nightly-overlay;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
@@ -51,8 +52,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-    self, nixpkgs, home-manager, nuenv, agenix, neovim-nightly, jj, ...
   outputs = inputs @ {
+    self, nixpkgs, home-manager, nuenv, agenix, neovim, jj, ...
   }:
     let
       # These are all the architectures this flake builds for
@@ -63,8 +64,9 @@
       specialArgs = inputs // { globals = globals; };
       overlays = [
         nuenv.overlays.default
-        neovim-nightly.overlay
+        neovim.overlay
         jj.overlays.default
+        (import ./packages { inherit lib; })
       ];
       globals = {
         nixpkgs.overlays = overlays;
