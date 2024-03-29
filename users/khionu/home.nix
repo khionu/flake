@@ -21,10 +21,10 @@ in {
   programs.nushell.extraConfig = ''
     $env.config.show_banner = false
 
-    def flakepull [] {
+    def flakepull [branch: string = "main"] {
       cd /etc/nixos
       sudo -E jj git fetch
-      sudo -E jj new main
+      sudo -E jj new $branch
       cd -
     }
   '';
