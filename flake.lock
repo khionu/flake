@@ -255,11 +255,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711133180,
-        "narHash": "sha256-WJOahf+6115+GMl3wUfURu8fszuNeJLv9qAWFQl3Vmo=",
+        "lastModified": 1711915616,
+        "narHash": "sha256-co6LoFA+j6BZEeJNSR8nZ4oOort5qYPskjrDHBaJgmo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1c2c5e4cabba4c43504ef0f8cc3f3dfa284e2dbb",
+        "rev": "820be197ccf3adaad9a8856ef255c13b6cc561a6",
         "type": "github"
       },
       "original": {
@@ -277,11 +277,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1711497966,
-        "narHash": "sha256-riUI0kKAPlx0IueXm6cn2jjAnorwumLSN2kFbVvDwT8=",
+        "lastModified": 1711984870,
+        "narHash": "sha256-RKECj5XeW+5+/6VjeR0fWRmDx9QbgrZwkgyvSaYnEuM=",
         "owner": "martinvonz",
         "repo": "jj",
-        "rev": "423a2a54463471e525a04959c9e79e3f4a206f4a",
+        "rev": "2dc95bb18b814bd58049897a7c9a83133f1988e1",
         "type": "github"
       },
       "original": {
@@ -293,11 +293,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1711490688,
-        "narHash": "sha256-jPmk/QLRzAMLxGXhe82d8tJ7ozh2vCTgLEhT370R4Wo=",
+        "lastModified": 1711992869,
+        "narHash": "sha256-b4tVFEBogVVanD/rgy0LehXMn71Ixa6s8GbQ5i+3hUk=",
         "ref": "refs/heads/main",
-        "rev": "4cef2052338eaf983a937bd196ac50fac73c8a2c",
-        "revCount": 15241,
+        "rev": "a4500b1051ef82840758f1202c2ca3e67306e7e1",
+        "revCount": 15300,
         "type": "git",
         "url": "ssh://git@git.lix.systems/lix-project/lix"
       },
@@ -319,11 +319,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711399509,
-        "narHash": "sha256-uSGd1oYatzLQ+vQ9HoROnx7FxboElVHkGQxy1vjXVUQ=",
+        "lastModified": 1711696613,
+        "narHash": "sha256-s7E5WBtEs91AkyzLpTCgFD3B5oAlfvCcqIhfAwUipVM=",
         "ref": "refs/heads/main",
-        "rev": "5d2b325d3a01040c8b9f1ac09fc73d932548afd5",
-        "revCount": 28,
+        "rev": "9c691a41855d11d63ca9c1be12d8440577cb8782",
+        "revCount": 34,
         "type": "git",
         "url": "ssh://git@git.lix.systems/lix-project/nixos-module"
       },
@@ -342,11 +342,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1711489301,
-        "narHash": "sha256-EAo2qkWh87dgvmat5Md6p4ReRzEZEak12Ls9aiktKJM=",
+        "lastModified": 1711925310,
+        "narHash": "sha256-BkQraGpH0yu1/jM5R2jFI4gms6B9zcz6xAf8gNMh8gw=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "77458e613b67b9e7607ae781bcfbdc2ff6b1b2ef",
+        "rev": "6b9a808d13b0d2857228a47511355fd6e12709ed",
         "type": "github"
       },
       "original": {
@@ -367,11 +367,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711497950,
-        "narHash": "sha256-EGnKcNKwMREOZ6T/4rzgpWzS+B3ETujzCjpciuTtxds=",
+        "lastModified": 1711930163,
+        "narHash": "sha256-uhSj9pvDMjlGhNbHvSRFc+YDn0WwLVQKa0Dol9wOLOQ=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "3072d414cb28d3fb2e957904e84c7832209a4fb0",
+        "rev": "7dc67f6370b4265df230f129b6dba57ac59e3bf9",
         "type": "github"
       },
       "original": {
@@ -382,11 +382,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1711333969,
-        "narHash": "sha256-5PiWGn10DQjMZee5NXzeA6ccsv60iLu+Xtw+mfvkUAs=",
+        "lastModified": 1711703276,
+        "narHash": "sha256-iMUFArF0WCatKK6RzfUJknjem0H9m4KgorO/p3Dopkk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "57e6b3a9e4ebec5aa121188301f04a6b8c354c9b",
+        "rev": "d8fe5e6c92d0d190646fb9f1056741a229980089",
         "type": "github"
       },
       "original": {
@@ -404,11 +404,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1701856726,
-        "narHash": "sha256-GIQWtr5dVjhiZ2EpIenB6igu6OrsScbLsNzlUd3KIJg=",
+        "lastModified": 1711979620,
+        "narHash": "sha256-+tOLrULar1dN0Phq6PNhACgocABA2E4rCh+VT3Hgogo=",
         "owner": "DeterminateSystems",
         "repo": "nuenv",
-        "rev": "6072a3a9b9fdb27a3d15e916c92b5bb4a3a5dac9",
+        "rev": "0245df62bb43e9c2c58f7a7a4b73cdf2726dc628",
         "type": "github"
       },
       "original": {
