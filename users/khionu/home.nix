@@ -168,6 +168,7 @@ in {
     clang
     docker
     khionu.neovim
+    signal-desktop
   ];
 
   home.stateVersion = "23.11";
