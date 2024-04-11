@@ -174,6 +174,7 @@ in {
     docker
     khionu.neovim
     signal-desktop
+    pueue
   ];
 
   home.stateVersion = "23.11";
