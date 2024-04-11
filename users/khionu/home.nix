@@ -133,6 +133,7 @@ in {
   programs.zellij.settings = {
     mirror_session = true;
   };
+  programs.pueue.enable = true;
   programs.bottom.enable = true; # -- Better than htop by a lot
   programs.bottom.settings = {
     flags = {
@@ -174,7 +175,6 @@ in {
     docker
     khionu.neovim
     signal-desktop
-    pueue
   ];
 
   home.stateVersion = "23.11";
