@@ -98,6 +98,11 @@ in {
       "wip node" = { fg = "yellow"; bold = true; };
       "wcc node" = { fg = "green"; bold = true; };
     };
+    # -- Rebase all non-main branches onto the working change
+    aliases.herd = ["rebase" "-r" "'branch_roots(@)'" "-d" "@"];
+    revset-aliases = {
+      "branch_roots(exclude)" = "'roots(::branches() ~ ::main) ~ exclude'";
+    };
   };
   # -- Can be redundant
   programs.ssh.extraConfig = ''
