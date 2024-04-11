@@ -35,6 +35,7 @@ in {
       cd -
     }
   '';
+  home.file.".config/nushell/scripts/".source = ./nuscripts;
   # -- Automatically load my devShells on directory change
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
