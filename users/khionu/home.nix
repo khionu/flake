@@ -99,9 +99,9 @@ in {
       "wcc node" = { fg = "green"; bold = true; };
     };
     # -- Rebase all non-main branches onto the working change
-    aliases.herd = ["rebase" "-r" "'branch_roots(@)'" "-d" "@"];
+    aliases.herd = ["rebase" "-r" "'branch_roots() ~ @'" "-d" "@"];
     revset-aliases = {
-      "branch_roots(exclude)" = "'roots(::branches() ~ ::main) ~ exclude'";
+      "branch_roots()" = "'all:roots(::branches() ~ ::main)'";
     };
   };
   # -- Can be redundant
