@@ -133,7 +133,7 @@ in {
   programs.zellij.settings = {
     mirror_session = true;
   };
-  programs.pueue.enable = true;
+  services.pueue.enable = true;
   programs.bottom.enable = true; # -- Better than htop by a lot
   programs.bottom.settings = {
     flags = {
