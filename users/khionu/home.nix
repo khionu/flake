@@ -35,7 +35,15 @@ in {
       cd -
     }
   '';
-  home.file.".config/nushell/scripts/".source = ./nuscripts;
+  # home.file.".config/nushell/scripts/task/mod.nu" = {
+  #   source = ./nu_modules/task/mod.nu;
+  #   executable = true;
+  # };
+  # home.file.".config/nushell/scripts/task.nu" = {
+  #   source = ./nu_modules/task/mod.nu;
+  #   # recursive = true;
+  #   executable = true;
+  # };
   # -- Automatically load my devShells on directory change
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
