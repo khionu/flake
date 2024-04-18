@@ -184,6 +184,7 @@ in {
     docker
     khionu.neovim
     signal-desktop
+    slack
   ];
 
   home.stateVersion = "23.11";
