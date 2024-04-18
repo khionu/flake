@@ -185,6 +185,7 @@ in {
     khionu.neovim
     signal-desktop
     slack
+    cosign
     gitsign
   ];
 
