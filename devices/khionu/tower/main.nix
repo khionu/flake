@@ -36,6 +36,8 @@
     device = "/dev/disk/by-id/nvme-nvme.8086-50484d32393133303030523939363043474e-494e54454c2053534450453231443936304741-00000001-part2";
   };
 
+  boot.loader.systemd-boot.consoleMode = "max";
+
   hardware.opengl = {
     driSupport = true;
     driSupport32Bit = true;
