@@ -185,6 +185,7 @@ in {
     khionu.neovim
     signal-desktop
     slack
+    gitsign
   ];
 
   home.stateVersion = "23.11";
