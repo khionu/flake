@@ -48,6 +48,9 @@
 
   boot.loader.systemd-boot.consoleMode = "max";
 
+  # Tweaks for Star Citizen
+  boot.kernel.sysctl."vm.max_map_count" = 16777216;
+
   hardware.opengl = {
     driSupport = true;
     driSupport32Bit = true;
