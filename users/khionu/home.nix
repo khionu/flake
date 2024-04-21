@@ -187,6 +187,10 @@ in {
     slack
     cosign
     gitsign
+    (lutris.override {
+      extraPkgs = pkgs: [];
+      extraLibraries =  pkgs: [];
+    })
   ];
 
   home.stateVersion = "23.11";
