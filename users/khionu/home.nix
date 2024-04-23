@@ -191,6 +191,7 @@ in {
       extraPkgs = pkgs: [];
       extraLibraries =  pkgs: [];
     })
+    killall
   ];
 
   home.stateVersion = "23.11";
