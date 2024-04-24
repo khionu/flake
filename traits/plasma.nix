@@ -7,13 +7,11 @@
     plasma5.enable = true;
     plasma5.useQtScaling = true;
   };
-  services.xserver.displayManager = {
+  services.displayManager = {
     sddm.enable = true;
     sddm.autoNumlock = true;
   };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
