@@ -118,6 +118,11 @@ in {
     Host *
       IdentityAgent ~/.1password/agent.sock
   '';
+  programs.gpg.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry;
+  };
   programs.firefox.enable = true;
   programs.firefox.policies = {
     BlockAboutConfig = true;     # -- We're only managing that here
@@ -192,6 +197,7 @@ in {
       extraLibraries =  pkgs: [];
     })
     killall
+    libsForQt5.kleopatra
   ];
 
   home.stateVersion = "23.11";
