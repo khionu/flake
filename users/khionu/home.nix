@@ -198,6 +198,10 @@ in {
     })
     killall
     libsForQt5.kleopatra
+    virt-manager
+    virt-viewer
+    spice
+    spice-protocol
   ];
 
   home.stateVersion = "23.11";

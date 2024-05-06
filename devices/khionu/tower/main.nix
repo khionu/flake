@@ -7,7 +7,7 @@
   users.users.khionu = {
     isNormalUser = true;
     password = "changeme1234";
-    extraGroups = [ "wheel" "audio" "networkmanager" "docker" ];
+    extraGroups = [ "wheel" "audio" "networkmanager" "docker" "libvirtd" ];
     shell = pkgs.nushell;
   };
 
@@ -22,6 +22,16 @@
     # TODO: make it so
     # storageDriver = "zfs";
   };
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      swtpm.enable = true;
+      ovmf.enable = true;
+      ovmf.packages = [ pkgs.OVMFFull.fd ];
+    };
+  };
+  virtualisation.spiceUSBRedirection.enable = true;
+  services.spice-vdagentd.enable = true;
 
   # Hardware related
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
