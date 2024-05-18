@@ -202,6 +202,7 @@ in {
     virt-viewer
     spice
     spice-protocol
+    qFlipper
   ];
 
   home.stateVersion = "23.11";
