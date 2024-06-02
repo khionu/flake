@@ -203,6 +203,7 @@ in {
     spice
     spice-protocol
     qFlipper
+    ferium
   ];
 
   home.stateVersion = "23.11";

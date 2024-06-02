@@ -43,7 +43,6 @@
     # url = "github:neovim/neovim?dir=contrib";
       url = github:nix-community/neovim-nightly-overlay;
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     # Gonna be changing this version basically as soon as
     # the releases happen.
@@ -64,7 +63,7 @@
       specialArgs = inputs // { globals = globals; };
       overlays = [
         nuenv.overlays.default
-        neovim.overlay
+        neovim.overlays.default
         jj.overlays.default
         (import ./packages { inherit lib; })
       ];
