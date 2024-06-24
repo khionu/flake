@@ -49,8 +49,6 @@
   boot.loader.systemd-boot.consoleMode = "max";
 
   hardware.opengl = {
-    driSupport = true;
-    driSupport32Bit = true;
     extraPackages = [ pkgs.amdvlk ];
     extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
