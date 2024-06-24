@@ -204,6 +204,7 @@ in {
     spice-protocol
     qFlipper
     ferium
+    cider
   ];
 
   home.stateVersion = "23.11";
