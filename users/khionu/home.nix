@@ -1,11 +1,13 @@
-{ pkgs, lib, ... }: let
+{ pkgs, lib, config, ... }: let
+  props = config.meta.properties;
   pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICB2o2d+XdoTIeUP115mn87lYWlOy+DEOSLqN0ET7AW3 khionu";
-  global_envvars = { # Global as far as my user is concerned
-    EDITOR = "nvim";
-    # Enables using 1P for SSH PKI
-    SSH_AUTH_SOCK = "/home/khionu/.1password/agent.sock";
-  };
+  # Enables using 1P for SSH PKI
+  global_envvars.SSH_AUTH_SOCK = lib.optionals is_desktop "/home/khionu/.1password/agent.sock";
+  has_prop = p: elem p props;
 in {
+  imports = [
+    lib.optionals (elem "platform.desktop" props) ./desktop.nix
+  ];
   home.sessionVariables = global_envvars;
   # home.activation.getDotfiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
   #   run git clone $VERBOSE_ARG \
@@ -17,10 +19,9 @@ in {
     # -- `sudo -E` is required for pulling from authenticated repositories, for now
     # -- TODO: make another key for root to use for git-only purposes
     yolo = "sudo -E nixos-rebuild switch";
-    # nos = "sudo -E nvim /etc/nixos/flake.nix";
     reboot-win = "systemctl reboot --boot-loader-entry=auto-windows";
     reboot-fm = "systemctl reboot --boot-loader-entry=auto-reboot-to-firmware-setup";
-  };# -- TODO: `nos` should be more than "edit 1 file"
+  };
   programs.nushell.environmentVariables = global_envvars;
   # -- Nushell has a neat little banner by default, partially to talk about itself and
   # -- partially to get you to check out the config options, which are numerous
@@ -34,24 +35,21 @@ in {
       sudo -E jj new $br
       cd -
     }
+
+    def flakeedit [] {
+      hx /etc/nixos
+    }
   '';
-  # home.file.".config/nushell/scripts/task/mod.nu" = {
-  #   source = ./nu_modules/task/mod.nu;
-  #   executable = true;
-  # };
-  # home.file.".config/nushell/scripts/task.nu" = {
-  #   source = ./nu_modules/task/mod.nu;
-  #   # recursive = true;
-  #   executable = true;
-  # };
   # -- Automatically load my devShells on directory change
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
   # -- Really really nice autocomplete for a large set of programs
   programs.carapace.enable = true;
-  # -- We'll try disabling, see if this breaks anything
-  # programs.bash.enable = true;
   # -- Keeping git around for some tools that expect it
+  programs.helix = {
+    enable = true;
+    defaultEditor = true;
+  };
   programs.git = {
     enable = true;
     userName = "Khionu Sybiern";
@@ -76,13 +74,7 @@ in {
     ui.graph.style = "square";
     git.push-branch-prefix = "push/khionu/";
     snapshot.max-new-file-size = "5MiB"; # PDFs
-    signing.sign-all = "true";
-    signing.backend = "ssh";
-    signing.key = pubkey;
-    # -- This allows using 1P to sign commits
-    signing.backends.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-    # -- For verification of signatures locally
-    signing.backends.ssh.allowed-signers = "/home/khionu/.allowed_signers";
+    # Enable signing only if my keys (in 1P) are available
     # -- Slightly better snapshot times in general, much better for larger repos
     core.fsmonitor = "watchman";
     templates = {
@@ -112,30 +104,7 @@ in {
     revset-aliases = {
       "branch_roots()" = "'all:roots(::branches() ~ ::main)'";
     };
-  };
-  # -- Can be redundant
-  programs.ssh.extraConfig = ''
-    Host *
-      IdentityAgent ~/.1password/agent.sock
-  '';
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry;
-  };
-  programs.firefox.enable = true;
-  programs.firefox.policies = {
-    BlockAboutConfig = true;     # -- We're only managing that here
-    DisablePocket = true;        # -- I don't want to use this ever
-    EnableTrackingProtection = { # -- YASSSSSSSS
-      Value = true;
-      Cryptomining = true;
-      Fingerprinting = true;
-      EmailTracking = true;
-    };
-    OfferToSaveLogins = false;      # -- I use 1P
-    PasswordManagerEnabled = false; # -- ^
-    PromptForDownloadLocation = true;
+    signing.key = pubkey;
   };
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
@@ -152,11 +121,12 @@ in {
   programs.bottom.settings = {
     flags = {
       regex = true;
-      # battery = false; TODO: make this infer from whether we're on a laptop or not
+      battery = has_prop "platform.laptop";
       mem_as_value = true; # -- Values as MB/GB
       tree = true; # -- For process list
       show_table_scroll_position = true;
-      enable_gpu = true;
+      enable_gpu = (has_prop "platform.laptop")
+                || (has_prop "platform.desktop");
       enable_cache_memory = true;
     };
   };
@@ -165,46 +135,20 @@ in {
     # agenix.packages.x86_64-linux.agenix
     rage
     atool
-    vivaldi
-    tdesktop
-    spotify
-    yubikey-personalization
-    yubikey-manager-qt
-    yubikey-touch-detector
     du-dust
     neofetch
-    discord-canary
-    zoom-us
     unzip
     zip
     xclip
     whois
     ventoy-full
     glow
-    httpie
     vhs
     watchman
     imagemagick
-    clang
-    docker
-    khionu.neovim
-    signal-desktop
-    slack
     cosign
     gitsign
-    (lutris.override {
-      extraPkgs = pkgs: [];
-      extraLibraries =  pkgs: [];
-    })
     killall
-    libsForQt5.kleopatra
-    virt-manager
-    virt-viewer
-    spice
-    spice-protocol
-    qFlipper
-    ferium
-    cider
   ];
 
   home.stateVersion = "23.11";
