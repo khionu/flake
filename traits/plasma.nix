@@ -1,4 +1,6 @@
 { pkgs, ... }: {
+  meta.properties = [ "trait.plasma" ];
+  
   xdg.mime.enable = true;
   xdg.portal.enable = true;
 

@@ -52,6 +52,7 @@
         pkgs = import nixpkgs { inherit overlays system; };
       });
     in {
+      nixosModules.meta = ./modules/meta.nix;
       nixosModules.traits = {
         base          = ./traits/base.nix;
         hm            = ./traits/hm.nix;

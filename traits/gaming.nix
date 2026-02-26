@@ -1,4 +1,6 @@
 { pkgs, ... }: {
+  meta.properties = [ "trait.gaming" ];
+  
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
