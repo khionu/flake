@@ -25,23 +25,9 @@
       url = github:ryantm/agenix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # We should be able to build nightly without the 
-    # neovim-nightly flake, but for some reason it just
-    # doesn't work right now. TODO
-    neovim = {
-    # url = "github:neovim/neovim?dir=contrib";
-      url = github:nix-community/neovim-nightly-overlay;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Gonna be changing this version basically as soon as
-    # the releases happen.
-    jj = {
-      url = github:martinvonz/jj;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs = inputs @ {
-    self, nixpkgs, home-manager, nuenv, agenix, neovim, jj, ...
+    self, nixpkgs, home-manager, nuenv, agenix, ...
   }:
     let
       # These are all the architectures this flake builds for
@@ -52,8 +38,6 @@
       specialArgs = inputs // { globals = globals; };
       overlays = [
         nuenv.overlays.default
-        neovim.overlays.default
-        jj.overlays.default
         (import ./packages { inherit lib; })
         (import ./overlays { inherit lib; })
       ];
