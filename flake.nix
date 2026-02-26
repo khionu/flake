@@ -156,15 +156,15 @@
               traits.tz_us_pacific
             ];
           };
-          "household-benchtop" = lib.nixosSystem {
+          "khionu-opti" = lib.nixosSystem {
             inherit (x86_64Base) system specialArgs;
             modules = x86_64Base.modules ++ [
-              ./devices/household/benchtop
-              platforms.desktop
+              ./devices/khionu/opti
               traits.base
               traits.hm
               traits.networking
-              traits.plasma
+              traits.tailscale
+              traits.tailscale-ssh
               traits.tz_us_pacific
             ];
           };
