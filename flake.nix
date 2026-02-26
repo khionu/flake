@@ -6,17 +6,6 @@
     # I don't use this, but the other ones do, and this will
     # reduce redundancy through following
     flake-utils.url = "github:numtide/flake-utils";
-    # TODO: Document
-    lix = {
-      url = "git+ssh://git@git.lix.systems/lix-project/lix";
-      flake = false;
-    };
-    lix-module = {
-      url = "git+ssh://git@git.lix.systems/lix-project/nixos-module";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.lix.follows = "lix";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     # All user configurations are home-manager modules, which
     # have the advantage of many modules that each user can
     # tweak to their own preferences
@@ -66,6 +55,7 @@
         neovim.overlays.default
         jj.overlays.default
         (import ./packages { inherit lib; })
+        (import ./overlays { inherit lib; })
       ];
       globals = {
         nixpkgs.overlays = overlays;

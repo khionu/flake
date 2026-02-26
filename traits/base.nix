@@ -1,8 +1,4 @@
-{ pkgs, lix-module, ... }: {
-  imports = [
-    lix-module.nixosModules.default
-  ];
-
+{ pkgs, ... }: {
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 25;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -27,7 +23,7 @@
   
   nixpkgs.config.allowUnfree = true;
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.lixPackageSets.stable.lix;
     extraOptions = ''
       experimental-features = nix-command flakes
       keep-outputs = true
